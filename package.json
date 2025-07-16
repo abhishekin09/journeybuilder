@@ -1,0 +1,53 @@
+{
+  "name": "api-journey-builder",
+  "displayName": "API Journey Builder",
+  "description": "AI-powered tool to visualize API execution flows and function dependencies",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:apiJourneyBuilder.generate",
+    "onCommand:apiJourneyBuilder.openPanel"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "apiJourneyBuilder.generate",
+        "title": "✨ Generate API Journey"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorLangId",
+          "command": "apiJourneyBuilder.generate",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "echo \"No tests specified\""
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
