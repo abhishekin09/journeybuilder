@@ -45,26 +45,37 @@ export function activate(context: vscode.ExtensionContext) {
             cancellable: false
         }, async (progress) => {
             try {
+                // Create or show the webview panel
+                if (!apiJourneyPanel) {
+                    apiJourneyPanel = createWebviewPanel(context.extensionUri);
+                } else {
+                    apiJourneyPanel.reveal();
+                }
+                
                 // Analyze the function
                 const result = await aiService.analyzeFunction(functionName.trim());
-
-                // Create a new untitled file and show the writeup
-                const doc = await vscode.workspace.openTextDocument({
-                    content: result.writeup,
-                    language: 'markdown'
+                
+                // Send result to webview
+                apiJourneyPanel.webview.postMessage({
+                    command: 'showResult',
+                    result: result
                 });
-
-                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Two);
                 
                 vscode.window.showInformationMessage(`API Journey generated for ${functionName}`);
             } catch (error) {
-                vscode.window.showErrorMessage(`Failed to generate API journey: ${error instanceof Error ? error.message : String(error)}`);
+                vscode.window.showErrorMessage(`Failed to generate API journey: ${error}`);
             }
         });
     });
 
-    // The openPanel command is no longer needed as we are not using a webview panel
-    // const openPanelCommand = vscode.commands.registerCommand('apiJourneyBuilder.openPanel', () => { ... });
+    // Register the open panel command
+    const openPanelCommand = vscode.commands.registerCommand('apiJourneyBuilder.openPanel', () => {
+        if (!apiJourneyPanel) {
+            apiJourneyPanel = createWebviewPanel(context.extensionUri);
+        } else {
+            apiJourneyPanel.reveal();
+        }
+    });
     
     function createWebviewPanel(extensionUri: vscode.Uri): vscode.WebviewPanel {
         const panel = vscode.window.createWebviewPanel(
@@ -195,7 +206,7 @@ export function activate(context: vscode.ExtensionContext) {
         return text;
     }
 
-    context.subscriptions.push(generateCommand);
+    context.subscriptions.push(generateCommand, openPanelCommand);
 }
 
 export function deactivate() {

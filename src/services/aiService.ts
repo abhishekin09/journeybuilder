@@ -316,8 +316,7 @@ export class AIService {
         return {
             functionName: analysis.functionName,
             diagram,
-            writeup
-        };
+            writeup        };
     }
 
     private generateMermaidDiagram(analysis: FunctionAnalysis): string {
