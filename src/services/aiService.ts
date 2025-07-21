@@ -24,8 +24,9 @@ export class AIService {
 
     private initializeOpenAI() {
         // Hardcoded API key for development/testing
-        const apiKey = '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';
+        const apiKey = '';
         
+        apiKey
         console.log('🔧 Initializing OpenAI client...');
         this.openai = new OpenAI({
             apiKey: apiKey
