@@ -24,12 +24,12 @@ export class AIService {
 
     private initializeOpenAI() {
         // Hardcoded API key for development/testing
-        const apiKey = '';
+        const dkey = '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';
         
-        apiKey
+        dkey
         console.log('🔧 Initializing OpenAI client...');
         this.openai = new OpenAI({
-            apiKey: apiKey
+            apiKey: dkey
         });
         console.log('✅ OpenAI client initialized successfully');
     }
