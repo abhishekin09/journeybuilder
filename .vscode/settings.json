@@ -1,0 +1,4 @@
+{
+    "apiJourneyBuilder.openaiModel": "gpt-4-turbo-preview",
+    "apiJourneyBuilder.maxContextFiles": 10
+} 
